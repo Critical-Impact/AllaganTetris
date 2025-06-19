@@ -187,6 +187,11 @@ public class TetrisAddon : NativeAddon
         return true;
     }
 
+    protected override unsafe void OnFinalize(AtkUnitBase* addon)
+    {
+        focused = false;
+    }
+
     protected override unsafe void OnUpdate(AtkUnitBase* addon)
     {
         var focusedNode = AtkStage.Instance()->GetFocus();
