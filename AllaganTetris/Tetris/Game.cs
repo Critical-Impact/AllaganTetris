@@ -262,6 +262,8 @@ namespace AllaganTetris.Tetris
             {
                 Step();
             }
+
+            Step();
         }
 
         public void RotateLeft()

@@ -25,7 +25,8 @@ public sealed class TetrisGridNode : ResNode {
         {PieceType.S, new Vector4(-75f, 75f, -222f, 1)},  //S block
         {PieceType.Z, new Vector4(159f, -147f, -211f,1)},   //Z block
         {PieceType.T, new Vector4(-77f, -211f, 75f,1)},   //T block
-        {PieceType.None, new Vector4(1,1,1,0f)},                 //Shadow Piece
+        {PieceType.None, new Vector4(1,1,1,0f)},          //Empty
+        {PieceType.Shadow, new Vector4(1,1,1,0.1f)},          //Shadow Piece
     };
 
     private readonly IconImageNode imageNode;

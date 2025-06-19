@@ -125,10 +125,15 @@ public class TetrisAddon : NativeAddon
         }
     }
 
-    public void StartGame()
+    public void CreateGame(bool start = false)
     {
         Game = gameFactory.Invoke();
         gameSpeed = 800;
+        timerCounter = 0;
+        if (start)
+        {
+            Game.Start();
+        }
     }
 
     private void RunGame()
@@ -320,8 +325,7 @@ public class TetrisAddon : NativeAddon
 
         NativeController.AttachNode(controlsNode, this);
 
-
-        StartGame();
+        CreateGame();
     }
 
     private void StartButtonClicked(AddonEventData addonEventData)
@@ -338,8 +342,7 @@ public class TetrisAddon : NativeAddon
                     Game.Pause();
                     break;
                 case Game.GameStatus.Finished:
-                    Game = gameFactory.Invoke();
-                    Game.Start();
+                    CreateGame(true);
                     break;
             }
         }
@@ -349,7 +352,7 @@ public class TetrisAddon : NativeAddon
     {
         if (Game != null)
         {
-            Game = gameFactory.Invoke();
+            CreateGame();
         }
     }
 
