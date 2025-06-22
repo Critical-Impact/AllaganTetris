@@ -16,5 +16,6 @@
       <Content Include="Images\block.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="Images\logo.png" />
     </ItemGroup>
 </Project>

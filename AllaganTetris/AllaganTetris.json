@@ -2,5 +2,8 @@
   "Name": "Allagan Tetris",
   "Author": "Critical-Impact",
   "Description": "A not so faithful recreation of the legendary game.",
-  "Punchline": "Even the Allags had time to burn!"
+  "Punchline": "Even the Allags had time to burn!",
+  "Tags": [
+    "game"
+  ]
 }

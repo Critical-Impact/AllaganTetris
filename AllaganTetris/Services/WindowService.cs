@@ -18,7 +18,7 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
     private readonly WindowSystemFactory windowSystemFactory;
     private readonly IUiBuilder uiBuilder;
     private readonly IWindowSystem windowSystem;
-    
+
     public WindowService(IEnumerable<Window> windows, ILogger<DisposableMediatorSubscriberBase> logger,
         MediatorService mediatorService, WindowSystemFactory windowSystemFactory, IUiBuilder uiBuilder) : base(logger,
         mediatorService)
@@ -31,27 +31,23 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
             this.windowSystem.AddWindow(window);
         }
     }
-    
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
         this.MediatorService.Subscribe<OpenWindowMessage>(this, this.OpenWindow);
         this.MediatorService.Subscribe<ToggleWindowMessage>(this, this.ToggleWindow);
         this.MediatorService.Subscribe<CloseWindowMessage>(this, this.CloseWindow);
-        foreach (var window in this.windowSystem.Windows)
-        {
-            window.IsOpen = true;
-        }
-        
+
         this.uiBuilder.Draw += this.Draw;
         return Task.CompletedTask;
     }
-    
+
     public Task StopAsync(CancellationToken cancellationToken)
     {
         this.uiBuilder.Draw -= this.Draw;
         return Task.CompletedTask;
     }
-    
+
     private void OpenWindow(OpenWindowMessage obj)
     {
         var window = this.windowSystem.Windows.FirstOrDefault(c => c.GetType() == obj.WindowType);
@@ -60,7 +56,7 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
             window.IsOpen = true;
         }
     }
-    
+
     private void CloseWindow(CloseWindowMessage obj)
     {
         var window = this.windowSystem.Windows.FirstOrDefault(c => c.GetType() == obj.WindowType);
@@ -69,7 +65,7 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
             window.IsOpen = false;
         }
     }
-    
+
     private void ToggleWindow(ToggleWindowMessage obj)
     {
         var window = this.windowSystem.Windows.FirstOrDefault(c => c.GetType() == obj.WindowType);
@@ -78,7 +74,7 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
             window.IsOpen = !window.IsOpen;
         }
     }
-    
+
     private void Draw()
     {
         this.windowSystem.Draw();

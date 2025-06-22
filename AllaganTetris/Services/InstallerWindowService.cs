@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DalaMock.Host.Mediator;
 using AllaganTetris.Mediator;
-using AllaganTetris.Windows;
 using Dalamud.Plugin;
 using Microsoft.Extensions.Hosting;
 
@@ -18,7 +17,6 @@ public class InstallerWindowService(
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        this.PluginInterface.UiBuilder.OpenConfigUi += this.ToggleConfigUi;
         this.PluginInterface.UiBuilder.OpenMainUi += this.ToggleMainUi;
 
         return Task.CompletedTask;
@@ -26,7 +24,6 @@ public class InstallerWindowService(
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        this.PluginInterface.UiBuilder.OpenConfigUi -= this.ToggleConfigUi;
         this.PluginInterface.UiBuilder.OpenMainUi -= this.ToggleMainUi;
         return Task.CompletedTask;
     }
@@ -34,10 +31,5 @@ public class InstallerWindowService(
     private void ToggleMainUi()
     {
         this.mediatorService.Publish(new ToggleTetrisWindowMessage());
-    }
-
-    private void ToggleConfigUi()
-    {
-        this.mediatorService.Publish(new ToggleWindowMessage(typeof(ConfigWindow)));
     }
 }
