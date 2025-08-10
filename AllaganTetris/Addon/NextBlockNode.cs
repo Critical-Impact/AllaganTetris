@@ -12,7 +12,7 @@ public sealed class NextBlockNode : ResNode {
     private readonly NineGridNode backgroundNode;
     private readonly TextNode headerNode;
     private readonly SimpleNineGridNode dividingLineNode;
-    private ImGuiIconButtonNode[,] pieceNodes;
+    private ImGuiImageNode[,] pieceNodes;
     private PieceType currentPieceType = PieceType.None;
 
     public Dictionary<PieceType, Vector4> BlockColors = new()
@@ -29,7 +29,7 @@ public sealed class NextBlockNode : ResNode {
 
     public NextBlockNode(NativeController nativeController, IDalamudTextureWrap blockTexture, int width, int height) {
 
-        pieceNodes = new ImGuiIconButtonNode[5, 5];
+        pieceNodes = new ImGuiImageNode[5, 5];
 
         headerNode = new TextNode()
         {
@@ -80,15 +80,14 @@ public sealed class NextBlockNode : ResNode {
         {
             for (int y = 0; y < 5; y++)
             {
-                pieceNodes[x,y] = new ImGuiIconButtonNode {
+                pieceNodes[x,y] = new ImGuiImageNode {
                     Position = new Vector2(xPos , yPos),
                     Size = new Vector2(blockSize, blockSize),
                     IsVisible = true,
                 };
 
                 pieceNodes[x,y].LoadTexture(blockTexture);
-
-                pieceNodes[x, y].Color = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+                pieceNodes[x, y].Alpha = 0f;
 
                 yPos += blockSize;
                 nativeController.AttachNode(pieceNodes[x,y], this);
