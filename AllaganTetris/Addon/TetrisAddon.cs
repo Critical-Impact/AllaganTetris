@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using AllaganTetris.Tetris;
 using Dalamud.Game.Addon.Events;
+using Dalamud.Game.Addon.Events.EventDataTypes;
 using Dalamud.Game.ClientState.Keys;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Textures.TextureWraps;
