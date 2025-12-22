@@ -13,7 +13,7 @@ public sealed class ControlsNode : ResNode {
     private PieceType currentPieceType = PieceType.None;
     private TextNode textNode;
 
-    public ControlsNode(NativeController nativeController, int width) {
+    public ControlsNode(int width) {
 
         headerNode = new TextNode()
         {
@@ -29,10 +29,10 @@ public sealed class ControlsNode : ResNode {
             BackgroundColor = Vector4.Zero,
             Size = new Vector2(46.0f, 20.0f),
             Position = new Vector2(0, 0),
-            Text = "Controls:"
+            SeString = "Controls:"
         };
 
-        nativeController.AttachNode(headerNode, this);
+        headerNode.AttachNode(this);
 
         dividingLineNode = new SimpleNineGridNode {
             TexturePath = "ui/uld/WindowA_Line.tex",
@@ -45,7 +45,7 @@ public sealed class ControlsNode : ResNode {
             Position = new Vector2(0, 18),
         };
 
-        nativeController.AttachNode(dividingLineNode, this);
+        dividingLineNode.AttachNode(this);
 
         var instructions = new List<string>(){"Left Arrow: Move Left", "Right Arrow: Move Right", "Down Arrow: Drop Block",
             "Up Arrow: Smash Block", "Z: Rotate Block", "X: Rotate Block"};
@@ -68,18 +68,9 @@ public sealed class ControlsNode : ResNode {
             Position = new Vector2(0, yPos),
         };
 
-        textNode.Text = string.Join("\n", instructions);
-        nativeController.AttachNode(textNode, this);
+        textNode.SeString = string.Join("\n", instructions);
+        textNode.AttachNode(this);
 
         Height = headerNode.Height + dividingLineNode.Height;
-    }
-
-    protected override void Dispose(bool disposing) {
-        if (disposing) {
-            dividingLineNode.Dispose();
-            headerNode.Dispose();
-            textNode.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

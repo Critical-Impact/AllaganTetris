@@ -13,7 +13,6 @@ using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
-using KamiToolKit.Addon;
 using KamiToolKit.Nodes;
 
 namespace AllaganTetris.Addon;
@@ -50,12 +49,11 @@ public class TetrisAddon : NativeAddon
     private int gameSpeed;
 
     [SetsRequiredMembers]
-    public TetrisAddon(ITextureProvider textureProvider, IDalamudPluginInterface pluginInterface, IFramework framework, NativeController nativeController, IKeyState keyState, Game.Factory gameFactory)
+    public TetrisAddon(ITextureProvider textureProvider, IDalamudPluginInterface pluginInterface, IFramework framework, IKeyState keyState, Game.Factory gameFactory)
     {
         InternalName = "Allagan Tetris";
         Title = "Allagan Tetris";
         Size = new(520,740);
-        NativeController = nativeController;
         this.framework = framework;
         this.keyState = keyState;
         this.gameFactory = gameFactory;
@@ -219,7 +217,7 @@ public class TetrisAddon : NativeAddon
         if (Game.Score != currentScore)
         {
             currentScore = Game.Score;
-            scoreNode.Text = "Current Score: " + currentScore;
+            scoreNode.SeString = "Current Score: " + currentScore;
         }
 
         if (Game.Status != currentStatus)
@@ -228,16 +226,16 @@ public class TetrisAddon : NativeAddon
             switch (currentStatus)
             {
                 case Game.GameStatus.ReadyToStart:
-                     startGameButton.Label = "Start";
+                     startGameButton.SeString = "Start";
                      break;
                 case Game.GameStatus.InProgress:
-                    startGameButton.Label = "Stop";
+                    startGameButton.SeString = "Stop";
                     break;
                 case Game.GameStatus.Paused:
-                    startGameButton.Label = "Resume";
+                    startGameButton.SeString = "Resume";
                     break;
                 case Game.GameStatus.Finished:
-                    startGameButton.Label = "Play Again";
+                    startGameButton.SeString = "Play Again";
                     break;
             }
         }
@@ -253,13 +251,13 @@ public class TetrisAddon : NativeAddon
         var xPos = FramePadding;
         var yPos = UnitSize - FramePadding;
 
-        tetrisGrid = new TetrisGridNode(NativeController, texture)
+        tetrisGrid = new TetrisGridNode(texture)
         {
             Position = new Vector2(xPos, yPos),
             IsVisible = true,
         };
 
-        NativeController.AttachNode(tetrisGrid, this);
+        tetrisGrid.AttachNode(this);
 
         yPos = UnitSize - FramePadding;
         xPos += tetrisGrid.Width + FramePadding;
@@ -269,26 +267,26 @@ public class TetrisAddon : NativeAddon
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(80, 32),
             IsVisible = true,
-            Label = "Start",
+            SeString = "Start",
         };
 
-        startGameButton.AddEvent(AddonEventType.ButtonClick, StartButtonClicked);
+        startGameButton.AddEvent(AtkEventType.ButtonClick, StartButtonClicked);
 
         yPos += startGameButton.Height + UnitPadding;
 
-        NativeController.AttachNode(startGameButton, this);
+        startGameButton.AttachNode(this);
 
         restartGameButton = new TextButtonNode()
         {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(80, 32),
             IsVisible = true,
-            Label = "Restart",
+            SeString = "Restart",
         };
 
-        restartGameButton.AddEvent(AddonEventType.ButtonClick, RestartButtonClicked);
+        restartGameButton.AddEvent(AtkEventType.ButtonClick, RestartButtonClicked);
 
-        NativeController.AttachNode(restartGameButton, this);
+        restartGameButton.AttachNode(this);
 
         yPos += restartGameButton.Height + UnitPadding;
 
@@ -309,32 +307,32 @@ public class TetrisAddon : NativeAddon
             Position = new Vector2(xPos, yPos),
         };
 
-        NativeController.AttachNode(scoreNode, this);
+        scoreNode.AttachNode(this);
 
         yPos += scoreNode.Height + UnitPadding;
 
-        nextBlockNode = new NextBlockNode(NativeController, texture, 130, 130)
+        nextBlockNode = new NextBlockNode(texture, 130, 130)
         {
             Position = new Vector2(xPos, yPos),
             IsVisible = true,
         };
 
-        NativeController.AttachNode(nextBlockNode, this);
+        nextBlockNode.AttachNode(this);
 
         yPos += nextBlockNode.Height + UnitPadding;
 
-        controlsNode = new ControlsNode(NativeController, 130)
+        controlsNode = new ControlsNode(130)
         {
             Position = new Vector2(xPos, yPos),
             IsVisible = true
         };
 
-        NativeController.AttachNode(controlsNode, this);
+        controlsNode.AttachNode(this);
 
         CreateGame();
     }
 
-    private void StartButtonClicked(AddonEventData addonEventData)
+    private void StartButtonClicked()
     {
         if (Game != null)
         {
@@ -354,7 +352,7 @@ public class TetrisAddon : NativeAddon
         }
     }
 
-    private void RestartButtonClicked(AddonEventData addonEventData)
+    private void RestartButtonClicked()
     {
         if (Game != null)
         {
@@ -363,14 +361,4 @@ public class TetrisAddon : NativeAddon
     }
 
     private bool isDisposed;
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        if (!isDisposed)
-        {
-            this.framework.Update -= FrameworkOnUpdate;
-            texture.Dispose();
-            isDisposed = true;
-        }
-    }
 }

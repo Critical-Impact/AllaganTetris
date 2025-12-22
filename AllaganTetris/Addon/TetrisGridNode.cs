@@ -31,7 +31,7 @@ public sealed class TetrisGridNode : ResNode {
 
     private readonly IconImageNode imageNode;
 
-    public TetrisGridNode(NativeController nativeController, IDalamudTextureWrap blockTexture, int blockSize = 32, int boardWidth = 10, int boardHeight = 20) {
+    public TetrisGridNode(IDalamudTextureWrap blockTexture, int blockSize = 32, int boardWidth = 10, int boardHeight = 20) {
         this.blockSize = blockSize;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
@@ -44,16 +44,17 @@ public sealed class TetrisGridNode : ResNode {
             IsVisible = true,
         };
 
-        nativeController.AttachNode(backgroundNode, this);
+        backgroundNode.AttachNode(this);
 
         imageNode = new IconImageNode()
         {
             IconId = 72659,
             Position = new Vector2(0, 0),
             IsVisible = true,
+            FitTexture = true
         };
         imageNode.Height = imageNode.TextureHeight;
-        nativeController.AttachNode(imageNode, this);
+        imageNode.AttachNode(this);
 
         var xPos = UnitPadding / 2.0f;
         var yPos = UnitPadding;
@@ -68,13 +69,14 @@ public sealed class TetrisGridNode : ResNode {
                     Position = new Vector2(xPos , yPos),
                     Size = new Vector2(blockSize, blockSize),
                     IsVisible = true,
+                    FitTexture = true
                 };
 
                 board[x,y].LoadTexture(blockTexture);
                 board[x, y].Alpha = 0f;
 
                 yPos += blockSize;
-                nativeController.AttachNode(board[x,y], this);
+                board[x,y].AttachNode(this);
             }
             yPos = startY;
             xPos += blockSize;
@@ -107,21 +109,6 @@ public sealed class TetrisGridNode : ResNode {
                 }
                 board[x, y].PieceType = pieceType;
             }
-        }
-    }
-
-    protected override void Dispose(bool disposing) {
-        if (disposing) {
-            backgroundNode.Dispose();
-            imageNode.Dispose();
-            for (int x = 0; x < boardWidth; x++)
-            {
-                for (int y = 0; y < boardHeight; y++)
-                {
-                    board[x,y].Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -27,7 +27,7 @@ public sealed class NextBlockNode : ResNode {
         {PieceType.None, new Vector4(1,1,1,0f)},                 //Shadow Piece
     };
 
-    public NextBlockNode(NativeController nativeController, IDalamudTextureWrap blockTexture, int width, int height) {
+    public NextBlockNode(IDalamudTextureWrap blockTexture, int width, int height) {
 
         pieceNodes = new ImGuiImageNode[5, 5];
 
@@ -45,10 +45,10 @@ public sealed class NextBlockNode : ResNode {
             BackgroundColor = Vector4.Zero,
             Size = new Vector2(46.0f, 20.0f),
             Position = new Vector2(0, 0),
-            Text = "Next Block:"
+            SeString = "Next Block:"
         };
 
-        nativeController.AttachNode(headerNode, this);
+        headerNode.AttachNode(this);
 
         dividingLineNode = new SimpleNineGridNode {
             TexturePath = "ui/uld/WindowA_Line.tex",
@@ -61,7 +61,7 @@ public sealed class NextBlockNode : ResNode {
             Position = new Vector2(0, 18),
         };
 
-        nativeController.AttachNode(dividingLineNode, this);
+        dividingLineNode.AttachNode(this);
 
         backgroundNode = new InsetBackgroundNode() {
             Position = new Vector2(0, 24),
@@ -69,7 +69,7 @@ public sealed class NextBlockNode : ResNode {
             IsVisible = true,
         };
 
-        nativeController.AttachNode(backgroundNode, this);
+        backgroundNode.AttachNode(this);
 
         var padding = 10.0f;
         var blockSize = (width - (padding * 2)) / 5.0f;
@@ -90,7 +90,7 @@ public sealed class NextBlockNode : ResNode {
                 pieceNodes[x, y].Alpha = 0f;
 
                 yPos += blockSize;
-                nativeController.AttachNode(pieceNodes[x,y], this);
+                pieceNodes[x,y].AttachNode(this);
             }
             yPos = 24 + padding;
             xPos += blockSize;
@@ -148,22 +148,6 @@ public sealed class NextBlockNode : ResNode {
                     }
                 }
             }
-        }
-    }
-
-    protected override void Dispose(bool disposing) {
-        if (disposing) {
-            backgroundNode.Dispose();
-            dividingLineNode.Dispose();
-            headerNode.Dispose();
-            for (int x = 0; x < 4; x++)
-            {
-                for (int y = 0; y < 4; y++)
-                {
-                    pieceNodes[x,y].Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -14,15 +14,13 @@ namespace AllaganTetris.Services;
 
 public class AddonService : DisposableMediatorSubscriberBase, IHostedService
 {
-    private readonly NativeController nativeController;
     private readonly TetrisAddon tetrisAddon;
     private readonly IFramework framework;
     private readonly ICommandManager commandManager;
 
 
-    public AddonService(ILogger<AddonService> logger, MediatorService mediatorService, NativeController nativeController, TetrisAddon tetrisAddon, IFramework framework, ICommandManager commandManager) : base(logger, mediatorService)
+    public AddonService(ILogger<AddonService> logger, MediatorService mediatorService, TetrisAddon tetrisAddon, IFramework framework, ICommandManager commandManager) : base(logger, mediatorService)
     {
-        this.nativeController = nativeController;
         this.tetrisAddon = tetrisAddon;
         this.framework = framework;
         this.commandManager = commandManager;
@@ -60,7 +58,6 @@ public class AddonService : DisposableMediatorSubscriberBase, IHostedService
             framework.RunOnFrameworkThread(() =>
             {
                 tetrisAddon.Dispose();
-                nativeController.Dispose();
             });
         }
 

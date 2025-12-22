@@ -27,6 +27,7 @@ public class Plugin : HostedPlugin
         IDtrBar dtrBar)
         : base(pluginInterface, pluginLog, framework, commandManager, dataManager, textureProvider, chatGui, dtrBar, keyState)
     {
+        KamiToolKitLibrary.Initialize(pluginInterface); //kill me
         this.CreateHost();
         this.Start();
     }
@@ -63,7 +64,6 @@ public class Plugin : HostedPlugin
 
         //Tetris specific things
         containerBuilder.RegisterType<AddonService>().SingleInstance().AsImplementedInterfaces().AsSelf();
-        containerBuilder.RegisterType<NativeController>().SingleInstance().AsImplementedInterfaces().AsSelf();
         containerBuilder.RegisterType<Game>().AsImplementedInterfaces().AsSelf();
         containerBuilder.RegisterType<TetrisAddon>().SingleInstance().AsSelf();
     }
