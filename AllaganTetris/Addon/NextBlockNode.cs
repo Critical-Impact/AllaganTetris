@@ -84,6 +84,7 @@ public sealed class NextBlockNode : ResNode {
                     Position = new Vector2(xPos , yPos),
                     Size = new Vector2(blockSize, blockSize),
                     IsVisible = true,
+                    FitTexture = true
                 };
 
                 pieceNodes[x,y].LoadTexture(blockTexture);

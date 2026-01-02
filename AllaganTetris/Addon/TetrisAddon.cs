@@ -19,6 +19,8 @@ namespace AllaganTetris.Addon;
 
 public class TetrisAddon : NativeAddon
 {
+    private readonly ITextureProvider textureProvider;
+    private readonly IDalamudPluginInterface pluginInterface;
     private readonly IFramework framework;
     private readonly IKeyState keyState;
     private readonly Game.Factory gameFactory;
@@ -28,8 +30,8 @@ public class TetrisAddon : NativeAddon
     private const float UnitSize = 65.0f;
     private const float FramePadding = 8.0f;
     private const float UnitPadding = 10.0f;
-    private readonly IDalamudTextureWrap texture;
-    private readonly ISharedImmediateTexture sharedImmediateTexture;
+    private IDalamudTextureWrap texture;
+    private ISharedImmediateTexture sharedImmediateTexture;
 
     public Game? Game;
     private int timerCounter;
@@ -54,14 +56,12 @@ public class TetrisAddon : NativeAddon
         InternalName = "Allagan Tetris";
         Title = "Allagan Tetris";
         Size = new(520,740);
+        this.textureProvider = textureProvider;
+        this.pluginInterface = pluginInterface;
         this.framework = framework;
         this.keyState = keyState;
         this.gameFactory = gameFactory;
         gameSpeed = 800;
-        var assemblyLocation = pluginInterface.AssemblyLocation.DirectoryName!;
-        var imagePath = Path.Combine(assemblyLocation,"Images", "block.png");
-        sharedImmediateTexture = textureProvider.GetFromFile(imagePath);
-        texture = sharedImmediateTexture.RentAsync().Result;
         this.framework.Update += FrameworkOnUpdate;
     }
 
@@ -248,6 +248,11 @@ public class TetrisAddon : NativeAddon
 
     protected override unsafe void OnSetup(AtkUnitBase* addon)
     {
+        var assemblyLocation = pluginInterface.AssemblyLocation.DirectoryName!;
+        var imagePath = Path.Combine(assemblyLocation,"Images", "block.png");
+        sharedImmediateTexture = textureProvider.GetFromFile(imagePath);
+        texture = sharedImmediateTexture.RentAsync().Result;
+
         var xPos = FramePadding;
         var yPos = UnitSize - FramePadding;
 

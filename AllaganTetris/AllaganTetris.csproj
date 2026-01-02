@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <Content Include="AllaganTetris.json" />
+      <Content Include="CHANGELOG.md" />
       <Content Include="Images\block.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
