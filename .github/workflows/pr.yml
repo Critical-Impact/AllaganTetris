@@ -8,7 +8,7 @@ on:
 env:
   INTERNAL_NAME: AllaganTetris
   PLUGIN_NAME: Allagan Tetris
-  UPDATE_NAME:
+  UPDATE_NAME: tetris
 
 jobs:
   update-repo:
