@@ -5,6 +5,7 @@ using Dalamud.Interface.Textures.TextureWraps;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace AllaganTetris.Addon;
 
@@ -45,7 +46,7 @@ public sealed class NextBlockNode : ResNode {
             BackgroundColor = Vector4.Zero,
             Size = new Vector2(46.0f, 20.0f),
             Position = new Vector2(0, 0),
-            SeString = "Next Block:"
+            String = "Next Block:"
         };
 
         headerNode.AttachNode(this);
