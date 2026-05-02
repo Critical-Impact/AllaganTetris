@@ -16,16 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 public class Plugin : HostedPlugin
 {
     public Plugin(
-        IDalamudPluginInterface pluginInterface,
-        IPluginLog pluginLog,
-        IFramework framework,
-        ICommandManager commandManager,
-        IDataManager dataManager,
-        ITextureProvider textureProvider,
-        IChatGui chatGui,
-        IKeyState keyState,
-        IDtrBar dtrBar)
-        : base(pluginInterface, pluginLog, framework, commandManager, dataManager, textureProvider, chatGui, dtrBar, keyState)
+        IDalamudPluginInterface pluginInterface)
+        : base(pluginInterface)
     {
         KamiToolKitLibrary.Initialize(pluginInterface); //kill me
         this.CreateHost();
