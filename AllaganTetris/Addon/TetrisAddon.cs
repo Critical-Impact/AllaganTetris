@@ -217,7 +217,7 @@ public class TetrisAddon : NativeAddon
         if (Game.Score != currentScore)
         {
             currentScore = Game.Score;
-            scoreNode.SeString = "Current Score: " + currentScore;
+            scoreNode.String = "Current Score: " + currentScore;
         }
 
         if (Game.Status != currentStatus)
@@ -226,16 +226,16 @@ public class TetrisAddon : NativeAddon
             switch (currentStatus)
             {
                 case Game.GameStatus.ReadyToStart:
-                     startGameButton.SeString = "Start";
+                     startGameButton.String = "Start";
                      break;
                 case Game.GameStatus.InProgress:
-                    startGameButton.SeString = "Stop";
+                    startGameButton.String = "Stop";
                     break;
                 case Game.GameStatus.Paused:
-                    startGameButton.SeString = "Resume";
+                    startGameButton.String = "Resume";
                     break;
                 case Game.GameStatus.Finished:
-                    startGameButton.SeString = "Play Again";
+                    startGameButton.String = "Play Again";
                     break;
             }
         }
@@ -246,7 +246,7 @@ public class TetrisAddon : NativeAddon
         }
     }
 
-    protected override unsafe void OnSetup(AtkUnitBase* addon)
+    protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> atkValueSpan)
     {
         var assemblyLocation = pluginInterface.AssemblyLocation.DirectoryName!;
         var imagePath = Path.Combine(assemblyLocation,"Images", "block.png");
@@ -272,7 +272,7 @@ public class TetrisAddon : NativeAddon
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(80, 32),
             IsVisible = true,
-            SeString = "Start",
+            String = "Start",
         };
 
         startGameButton.AddEvent(AtkEventType.ButtonClick, StartButtonClicked);
@@ -286,7 +286,7 @@ public class TetrisAddon : NativeAddon
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(80, 32),
             IsVisible = true,
-            SeString = "Restart",
+            String = "Restart",
         };
 
         restartGameButton.AddEvent(AtkEventType.ButtonClick, RestartButtonClicked);

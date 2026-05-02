@@ -17,7 +17,7 @@ public class WindowService : DisposableMediatorSubscriberBase, IHostedService
 {
     private readonly WindowSystemFactory windowSystemFactory;
     private readonly IUiBuilder uiBuilder;
-    private readonly IWindowSystem windowSystem;
+    private readonly DalaMock.Shared.Interfaces.IWindowSystem windowSystem;
 
     public WindowService(IEnumerable<Window> windows, ILogger<DisposableMediatorSubscriberBase> logger,
         MediatorService mediatorService, WindowSystemFactory windowSystemFactory, IUiBuilder uiBuilder) : base(logger,

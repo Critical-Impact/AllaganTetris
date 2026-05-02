@@ -4,6 +4,7 @@ using AllaganTetris.Tetris;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace AllaganTetris.Addon;
 
@@ -29,7 +30,7 @@ public sealed class ControlsNode : ResNode {
             BackgroundColor = Vector4.Zero,
             Size = new Vector2(46.0f, 20.0f),
             Position = new Vector2(0, 0),
-            SeString = "Controls:"
+            String = "Controls:"
         };
 
         headerNode.AttachNode(this);
@@ -68,7 +69,7 @@ public sealed class ControlsNode : ResNode {
             Position = new Vector2(0, yPos),
         };
 
-        textNode.SeString = string.Join("\n", instructions);
+        textNode.String = string.Join("\n", instructions);
         textNode.AttachNode(this);
 
         Height = headerNode.Height + dividingLineNode.Height;
